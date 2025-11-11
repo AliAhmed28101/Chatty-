@@ -1,6 +1,8 @@
+import cloudinary from "../lib/cloudinary.js";
 import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs"
+
 
 export const signup = async (req, res) => {
 
@@ -100,5 +102,28 @@ export const logout = (req, res) => {
 
 
 export const updateProfile = async() =>{
-    
+
+    try {
+        const {profilePic} = req.body
+        //this function is protected, middleware use hua wa hai is fucntion mein phir next kar rahy hain ham tou protectRoute mein req.user=user kiyaa hua hai  
+       const userId =  req.user._id
+
+       if(!profilePic){
+        return res.status(400).json({message: "Profile Pic is Required"})
+
+       }
+
+      const uploadResponse = await cloudinary.uploader.upload(profilePic)
+      
+      
+      //image is uploaded to cloudinary now we need to save it to db
+      const updatedUser = await User.findByIdAndUpdate(userId, {profilePic:uploadResponse.secure_url}, {new:true})
+       res.status(200).json(updatedUser)
+
+
+    } catch (error) {
+        console.log("Error in updating the profile", error);
+        res.status(500).json({message: "Internal Server Error"})
+    }
+
 }
