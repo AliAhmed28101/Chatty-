@@ -13,6 +13,7 @@ export const useAuthStore = create((set) =>({
     isLoggingIn: false,
 
     isUpdatingProfile: false,
+
     isCheckingAuth: true,
     
     //when we refresh our page for a second we will like to check if the user is authenticated or not so we can place a loader type something to show
@@ -37,8 +38,11 @@ export const useAuthStore = create((set) =>({
             // finally we can set the loading state to be false as well
             set({isCheckingAuth: false})
         }
-    }
+    },
 
-    
+    signup: async(data) =>{
+
+        //signup logic
+    }
 
 }))

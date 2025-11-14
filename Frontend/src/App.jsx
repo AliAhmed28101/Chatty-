@@ -9,14 +9,17 @@ import ProfilePage from "./pages/ProfilePage"
 
 
 
-import { Routes, Route } from "react-router-dom"
+
+import { Routes, Route, Navigate} from "react-router-dom"
 import { useAuthStore } from "./store/useAuthStore"
 import { useEffect } from "react"
+
+import {Loader} from "lucide-react"
 
 
 function App() {
 
-   const {authUser, checkAuth}  = useAuthStore()
+   const {authUser, checkAuth, isCheckingAuth}  = useAuthStore()
 
     useEffect(() => {
 
@@ -27,6 +30,21 @@ function App() {
 
     console.log({authUser})
 
+    //this checkAuth is giving error rn because authentication is not done, in sign up we will add this
+
+
+
+    //right now we will add a loading screen, if ischeckingAuth is true and no auth user it will show 
+    if(isCheckingAuth && !authUser) return(
+      <div className="flex items-center justify-center h-screen">
+
+      <Loader className="size-10 animate-spin" />
+
+      </div>
+    )
+
+
+
   return (
     <>
       <div>
@@ -36,12 +54,14 @@ function App() {
 
 
         <Routes>
+          {/* if auth user is true then user can see the homepage else will be navigated to login page */}
 
-          <Route path="/" element={<HomePage />} />
-          <Route path="/signup" element={<SignUpPage />} />
-          <Route path="/login" element={<LoginPage />} />
+          {/* for login and signup pages if user is logged in we dont want to show those pages so if !authUser then they can see otherwise will be directed to homepage */}
+          <Route path="/" element={authUser ? <HomePage />: <Navigate to="/login" /> }/>
+          <Route path="/signup" element={!authUser ? <SignUpPage /> : <Navigate to = "/" />} />
+          <Route path="/login" element={!authUser ? <LoginPage /> : <Navigate to = "/" />} />
           <Route path="/settings" element={<SettingsPage />} />
-          <Route path="/profile" element={<ProfilePage/>} />
+          <Route path="/profile" element={ authUser ? <ProfilePage/> : <Navigate to="/login" />} />
 
         </Routes>
 
