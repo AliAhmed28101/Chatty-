@@ -19,6 +19,8 @@ export const useAuthStore = create((set) => ({
 
     isCheckingAuth: true,
 
+    onlineUsers: [],
+
     //when we refresh our page for a second we will like to check if the user is authenticated or not so we can place a loader type something to show
 
     //we have an endpoint for this (/check) in backend 

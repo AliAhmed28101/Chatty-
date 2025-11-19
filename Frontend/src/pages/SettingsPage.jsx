@@ -50,6 +50,7 @@ const SettingsPage = () => {
             <div className="max-w-lg mx-auto">
               {/* Mock Chat UI */}
               <div className="bg-base-100 rounded-xl shadow-sm overflow-hidden">
+                
                 {/* Chat Header */}
                 <div className="px-4 py-3 border-b border-base-300 bg-base-100">
                   <div className="flex items-center gap-3">
