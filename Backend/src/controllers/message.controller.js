@@ -44,7 +44,7 @@ export const getMessages = async(req, res)=>{
         ]
        })
 
-       res.status(200).json({messages})
+       res.status(200).json(messages)
 
     } catch (error) {
 
@@ -84,7 +84,7 @@ export const sendMessage = async(req, res)=>{
 
             //todo: real time functionality foes here => socket.io
             
-            res.status(201).json({newMessage})
+            res.status(201).json(newMessage)
             
 
     } catch (error) {
