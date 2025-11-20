@@ -6,13 +6,15 @@ import messageRoutes from "./routes/message.routes.js"
 import dotenv from "dotenv"
 import {connectDB} from "./lib/db.js"
 import cookieParser from "cookie-parser";
+import { app, server } from "./lib/socket.js"
 
 
 dotenv.config()
 
 const port = process.env.PORT
 
-const app = express()
+
+
 
 app.use(express.json({ limit: "10mb" }));
 
@@ -37,7 +39,7 @@ app.use("/api/messages", messageRoutes)
 
 
 
-app.listen(port, () => {
+server.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 
   
