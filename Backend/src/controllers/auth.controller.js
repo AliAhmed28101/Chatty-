@@ -2,10 +2,12 @@ import cloudinary from "../lib/cloudinary.js";
 import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs"
+// import { connectDB } from "../lib/db.js";
 
 
 export const signup = async (req, res) => {
 
+    // await connectDB();
     const { fullName, email, password } = req.body
 
     try {
@@ -55,11 +57,13 @@ export const signup = async (req, res) => {
 
     } catch (error) {
         console.log("Error is Signup controller", error.message);
-        res.status(500).json({ message: "Internal Server Error" })
+        // res.status(500).json({ message: "Internal Server Error" })
+        res.status(500).json({ message: error.message })
     }
 };
 
 export const login = async (req, res) => {
+    // await connectDB();
     const { email, password } = req.body
     try {
         const user = await User.findOne({ email })
@@ -91,6 +95,7 @@ export const login = async (req, res) => {
 
 
 export const logout = (req, res) => {
+
     try {
         res.cookie("jwt", "", { maxAge: 0 })
         res.status(200).json({ message: "Logged Out Successfully" })
@@ -102,7 +107,7 @@ export const logout = (req, res) => {
 
 
 export const updateProfile = async(req, res) =>{
-
+    // await connectDB();
     try {
         const {profilePic} = req.body
         //this function is protected, middleware use hua wa hai is fucntion mein phir next kar rahy hain ham tou protectRoute mein req.user=user kiyaa hua hai  
@@ -130,6 +135,7 @@ export const updateProfile = async(req, res) =>{
 
 //it is for if on refreshing we want to show login page or the profile it is authentication check 
 export const checkAuth = (req,res)=>{
+    
     try {
         res.status(200).json(req.user)
     } catch (error) {

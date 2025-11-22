@@ -22,6 +22,8 @@ app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.use(cookieParser());
 
+ connectDB()
+
 app.use(cors({
 
   origin: "http://localhost:5173" ,
@@ -35,6 +37,10 @@ app.use("/api/auth", authRoutes)
 
 app.use("/api/messages", messageRoutes)
 
+
+app.use("/", (req, res) => {
+  res.json({ message: "Welcome to the API" })
+})  
 
 
 
