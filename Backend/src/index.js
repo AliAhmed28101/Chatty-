@@ -13,23 +13,31 @@ dotenv.config()
 
 const port = process.env.PORT
 
-
-
-
 app.use(express.json({ limit: "10mb" }));
 
 app.use(express.urlencoded({ limit: "10mb", extended: true }));
 
 app.use(cookieParser());
 
- connectDB()
+connectDB()
+
+
+
+
+const allowedOrigins = [
+  "http://localhost:5173",
+  "https://chattyf.vercel.app"
+];
 
 app.use(cors({
-
-  origin: "http://localhost:5173" ,
-
+  origin: (origin, callback) => {
+    if (!origin || allowedOrigins.includes(origin)) {
+      return callback(null, true);
+    }
+    return callback(new Error("CORS NOT ALLOWED"));
+  },
   credentials: true
-}))
+}));
 
 
 
@@ -49,5 +57,5 @@ server.listen(port, () => {
   console.log(`Example app listening on port ${port}`)
 
   
-  connectDB()
+  // connectDB()
 })
